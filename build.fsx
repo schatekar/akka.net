@@ -531,7 +531,6 @@ Target "HelpDocs" <| fun _ ->
 
 // tests dependencies
 "CleanTests" ==> "RunTests"
-"BuildRelease" ==> "CleanTests" ==> "MultiNodeTests"
 
 // nuget dependencies
 "CleanNuget" ==> "CreateNuget"
