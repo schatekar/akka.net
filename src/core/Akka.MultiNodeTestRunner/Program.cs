@@ -155,7 +155,7 @@ namespace Akka.MultiNodeTestRunner
 
                         PublishRunnerMessage("Waiting 3 seconds for all messages from all processes to be collected.");
                         Thread.Sleep(TimeSpan.FromSeconds(3));
-                        FinishSpec();
+                        FinishSpec(test.Value);
                     }
                 }
             }
@@ -193,7 +193,7 @@ namespace Akka.MultiNodeTestRunner
 
         static void StartNewSpec(IList<NodeTest> tests)
         {
-            SinkCoordinator.Tell(tests);
+            SinkCoordinator.Tell(new BeginSpec(tests));
         }
 
         static void ReportSpecPassFromExitCode(int nodeIndex, string testName)
@@ -201,9 +201,9 @@ namespace Akka.MultiNodeTestRunner
             SinkCoordinator.Tell(new NodeCompletedSpecWithSuccess(nodeIndex, testName + " passed."));
         }
 
-        static void FinishSpec()
+        static void FinishSpec(IList<NodeTest> tests)
         {
-           SinkCoordinator.Tell(new EndSpec(null));
+           SinkCoordinator.Tell(new EndSpec(tests));
         }
 
         static void PublishRunnerMessage(string message)
