@@ -60,6 +60,7 @@
     <Compile Include="Sinks\SinkCoordinator.cs" />
     <Compile Include="Sinks\TestCoordinatorEnabledMessageSink.cs" />
     <Compile Include="Reporting\TestRunCoordinator.cs" />
+    <Compile Include="TeamCity\TeamCityExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Akka\Akka.csproj">

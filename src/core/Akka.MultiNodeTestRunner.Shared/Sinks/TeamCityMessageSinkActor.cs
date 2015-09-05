@@ -10,6 +10,7 @@ using System.Linq;
 using Akka.Actor;
 using Akka.Event;
 using Akka.MultiNodeTestRunner.Shared.Reporting;
+using Akka.MultiNodeTestRunner.Shared.TeamCity;
 using System.Text;
 
 namespace Akka.MultiNodeTestRunner.Shared.Sinks
@@ -72,7 +73,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
                 }
 
                 var message = "Spec failed on one of the nodes";
-                WriteSpecMessage(string.Format("##teamcity[testFailed name='{0}' message='{1}' details='{2}']", data.FactName,  message, details));
+                WriteSpecMessage(string.Format("##teamcity[testFailed name='{0}' message='{1}' details='{2}']", data.FactName,  message, details.ToString().Escape()));
             }
             else
             {
