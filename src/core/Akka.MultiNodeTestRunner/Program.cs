@@ -63,7 +63,7 @@ namespace Akka.MultiNodeTestRunner
             TestRunSystem = ActorSystem.Create("TestRunnerLogging");
 
             IEnumerable<IMessageSink> defaultSinks = new[] { new ConsoleMessageSink() };
-            var runner = CommandLine.GetProperty("multinode.runner");
+            var runner = CommandLine.GetProperty("multinode.runner")?? string.Empty;
             if (runner.Equals("teamcity", StringComparison.OrdinalIgnoreCase))
             {
                 defaultSinks = new[] { new TeamCityMessageSink() };

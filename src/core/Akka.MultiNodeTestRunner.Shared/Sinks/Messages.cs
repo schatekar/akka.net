@@ -23,9 +23,12 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
         {
             Tests = tests;
 
-            var firstTest = Tests.First();
-            ClassName = firstTest.TestName;
-            MethodName = firstTest.MethodName;
+            if (tests != null && tests.Count > 0)
+            {
+                var firstTest = Tests.First();
+                ClassName = firstTest.TestName;
+                MethodName = firstTest.MethodName;
+            }
         }
         public IList<NodeTest> Tests { get; private set; }
         public string ClassName{ get; private set; }
