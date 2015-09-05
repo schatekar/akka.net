@@ -167,8 +167,16 @@ namespace Akka.MultiNodeTestRunner
             //Block until all Sinks have been terminated.
             TestRunSystem.AwaitTermination(TimeSpan.FromMinutes(1));
 
-            //Return the proper exit code
-            Environment.Exit(ExitCodeContainer.ExitCode);
+            
+            //For teamcity, always exit with code 0
+            if (runner.Equals("teamcity", StringComparison.OrdinalIgnoreCase))
+            {
+                Environment.Exit(0);
+            }
+            else //Otherwise, return the proper exit code
+            {
+                Environment.Exit(ExitCodeContainer.ExitCode);
+            }
         }
 
         static void EnableAllSinks(string assemblyName)
