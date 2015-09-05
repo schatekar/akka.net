@@ -153,9 +153,10 @@ namespace Akka.MultiNodeTestRunner
                             process.Close();
                         }
 
+                        FinishSpec(test.Value);
+
                         PublishRunnerMessage("Waiting 3 seconds for all messages from all processes to be collected.");
                         Thread.Sleep(TimeSpan.FromSeconds(3));
-                        FinishSpec(test.Value);
                     }
                 }
             }
