@@ -258,11 +258,13 @@ Target "MultiNodeTests" <| fun _ ->
 
     let runMultiNodeSpec assembly =
         let spec = getBuildParam "spec"
+        let runner = getBuildParam "runner"
 
         let args = new StringBuilder()
                 |> append assembly
                 |> append "-Dmultinode.enable-filesink=on"
                 |> appendIfNotNullOrEmpty spec "-Dmultinode.test-spec="
+                |> appendIfNotNullOrEmpty runner "-Dmultinode.runner="
                 |> toText
 
         let result = ExecProcess(fun info -> 
