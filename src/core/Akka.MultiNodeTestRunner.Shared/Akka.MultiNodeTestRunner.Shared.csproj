@@ -46,6 +46,7 @@
     <Compile Include="Persistence\IPersistentTestRunStore.cs" />
     <Compile Include="Persistence\JsonPersistentTestRunStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sinks\TeamCityMessageSinkActor.cs" />
     <Compile Include="Sinks\ConsoleMessageSinkActor.cs" />
     <Compile Include="Sinks\FileSystemMessageSinkActor.cs" />
     <Compile Include="Sinks\IMessageSink.cs" />

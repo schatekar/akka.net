@@ -52,12 +52,13 @@ namespace Akka.Cluster.Tests.MultiNode
             _third = Role("third");
             _fourth = Role("fourth");
 
-            CommonConfig = DebugConfig(false);
+            CommonConfig = MultiNodeLoggingConfig.LoggingConfig.WithFallback(DebugConfig(false))
+                .WithFallback(MultiNodeClusterSpec.ClusterConfig());
 
             DeployOnAll(@"
                 /service-hello {
-                    router = ""scatter - gather - pool""
-                    nr - of - instances = 3
+                    router = ""scatter-gather-pool""
+                    nr-of-instances = 3
                     target.nodes = [""@first@"", ""@second@"", ""@third@""]
                     }");
         }
@@ -108,7 +109,7 @@ namespace Akka.Cluster.Tests.MultiNode
 
                 EnterBarrier("start");
                 var actor = Sys.ActorOf(Props.Create<RemoteScatterGatherSpecConfig.SomeActor>().WithRouter(new ScatterGatherFirstCompletedPool(1, TimeSpan.FromSeconds(10))), "service-hello");
-                var foo = Assert.IsType<RemoteActorRef>(actor);
+                var foo = Assert.IsType<RoutedActorRef>(actor);
 
                 var connectionCount = 3;
                 var iterationCount = 10;
@@ -118,7 +119,7 @@ namespace Akka.Cluster.Tests.MultiNode
                     actor.Tell(new RemoteScatterGatherSpecConfig.Hit());
                 }
 
-                var replies = ReceiveWhile<IActorRef>(TimeSpan.FromSeconds(5), null, connectionCount * iterationCount)
+                var replies = ReceiveWhile<IActorRef>(TimeSpan.FromSeconds(5), x => x as IActorRef, connectionCount * iterationCount)
                                 .GroupBy(r => r.Path.Address)
                                 .Select(g => new {
                                                      Address = g.Key,

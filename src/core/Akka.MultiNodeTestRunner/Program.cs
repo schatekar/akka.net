@@ -61,7 +61,14 @@ namespace Akka.MultiNodeTestRunner
         static void Main(string[] args)
         {
             TestRunSystem = ActorSystem.Create("TestRunnerLogging");
-            SinkCoordinator = TestRunSystem.ActorOf(Props.Create<SinkCoordinator>(), "sinkCoordinator");
+
+            IEnumerable<IMessageSink> defaultSinks = new[] { new ConsoleMessageSink() };
+            var runner = CommandLine.GetProperty("multinode.runner");
+            if (runner.Equals("teamcity", StringComparison.OrdinalIgnoreCase))
+            {
+                defaultSinks = new[] { new TeamCityMessageSink() };
+            }
+            SinkCoordinator = TestRunSystem.ActorOf(Props.Create<SinkCoordinator>(defaultSinks), "sinkCoordinator");
 
             var assemblyName = Path.GetFullPath(args[0]);
             EnableAllSinks(assemblyName);
@@ -74,7 +81,20 @@ namespace Akka.MultiNodeTestRunner
                     controller.Find(false, discovery, TestFrameworkOptions.ForDiscovery());
                     discovery.Finished.WaitOne();
 
-                    foreach (var test in discovery.Tests.Reverse())
+                    var filteredSpecName = CommandLine.GetProperty("multinode.filter-spec");
+
+                    Dictionary<string, List<NodeTest>> tests = null;
+
+                    if (!string.IsNullOrWhiteSpace(filteredSpecName)) {
+                        tests = discovery.Tests.Where(t => t.Key.Contains(filteredSpecName))
+                            .ToDictionary(t => t.Key, t=> t.Value);
+                    }
+                    else {
+                        tests = discovery.Tests;
+                    }
+                    
+
+                    foreach (var test in tests.Reverse())
                     {
                         if (!string.IsNullOrEmpty(test.Value.First().SkipReason))
                         {

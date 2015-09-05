@@ -42,14 +42,14 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
     /// </summary>
     public class NodeCompletedSpecWithSuccess
     {
-        public NodeCompletedSpecWithSuccess(int nodeIndex, string message)
+        public NodeCompletedSpecWithSuccess(int nodeIndex, string testName)
         {
-            Message = message;
+            TestName = testName;
             NodeIndex = nodeIndex;
         }
 
+        public string TestName { get; private set; }
         public int NodeIndex { get; private set; }
-
         public string Message { get; private set; }
     }
 
@@ -58,14 +58,13 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
     /// </summary>
     public class NodeCompletedSpecWithFail
     {
-        public NodeCompletedSpecWithFail(int nodeIndex, string message)
+        public NodeCompletedSpecWithFail(int nodeIndex, string testName)
         {
-            Message = message;
+            TestName = testName;
             NodeIndex = nodeIndex;
         }
-
+        public string TestName { get; private set; }
         public int NodeIndex { get; private set; }
-
         public string Message { get; private set; }
     }
 
