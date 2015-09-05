@@ -98,7 +98,6 @@ namespace Akka.MultiNodeTestRunner
                     {
                         if (!string.IsNullOrEmpty(test.Value.First().SkipReason))
                         {
-                            PublishRunnerMessage(string.Format("Skipping test {0}. Reason - {1}", test.Value.First().MethodName, test.Value.First().SkipReason));
                             IgnoreSpec(test.Value);
                             continue;
                         }
@@ -142,6 +141,9 @@ namespace Akka.MultiNodeTestRunner
                                 }
                             };
                             process.Start();
+
+                            //Console.WriteLine(String.Format(@"-Dmultinode.test-assembly=""{0}"" -Dmultinode.test-class=""{1}"" -Dmultinode.test-method=""{2}"" -Dmultinode.max-nodes={3} -Dmultinode.server-host=""{4}"" -Dmultinode.host=""{5}"" -Dmultinode.index={6}",
+                            //    assemblyName, nodeTest.TypeName, nodeTest.MethodName, test.Value.Count, "localhost", "localhost", nodeTest.Node - 1));
 
                             process.BeginOutputReadLine();
                             PublishRunnerMessage(string.Format("Started node {0} on pid {1}", nodeTest.Node, process.Id));

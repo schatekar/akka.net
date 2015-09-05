@@ -122,7 +122,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
 
         protected override void HandleIgnoreSpec(IgnoreSpec ignoreSpec)
         {
-            WriteSpecMessage(string.Format("##teamcity[testIgnored name='{0}' message={1}]", ignoreSpec.MethodName, ignoreSpec.SkipReason));
+            WriteSpecMessage(string.Format("##teamcity[testIgnored name='{0}' message='{1}']", ignoreSpec.MethodName, ignoreSpec.SkipReason));
         }
 
         protected override void HandleNodeMessage(LogMessageForNode logMessage)
