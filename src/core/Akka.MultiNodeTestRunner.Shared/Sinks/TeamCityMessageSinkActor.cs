@@ -10,6 +10,7 @@ using System.Linq;
 using Akka.Actor;
 using Akka.Event;
 using Akka.MultiNodeTestRunner.Shared.Reporting;
+using System.Text;
 
 namespace Akka.MultiNodeTestRunner.Shared.Sinks
 {
@@ -53,22 +54,25 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
             //If we had a failure
             if (data.Passed.GetValueOrDefault(false) == false)
             {
-                WriteSpecMessage("Failure messages by Node");
+                var details = new StringBuilder();
+                details.AppendLine("Failure messages by Node");
                 foreach (var node in data.NodeFacts)
                 {
                     if (node.Value.Passed.GetValueOrDefault(false) == false)
                     {
-                        WriteSpecMessage(string.Format("<----------- BEGIN NODE {0} ----------->", node.Key));
+                        details.AppendLine(string.Format("<----------- BEGIN NODE {0} ----------->", node.Key));
                         foreach (var resultMessage in node.Value.ResultMessages)
                         {
-                            WriteSpecMessage(String.Format(" --> {0}", resultMessage.Message));
+                            details.AppendLine(String.Format(" --> {0}", resultMessage.Message));
                         }
                         if (node.Value.ResultMessages == null || node.Value.ResultMessages.Count == 0)
-                            WriteSpecMessage("[received no messages - SILENT FAILURE].");
-                        WriteSpecMessage(string.Format("<----------- END NODE {0} ----------->", node.Key));
+                            details.AppendLine("[received no messages - SILENT FAILURE].");
+                        details.AppendLine(string.Format("<----------- END NODE {0} ----------->", node.Key));
                     }
                 }
-                WriteSpecMessage(string.Format("##teamcity[testFailed name='{0}']", data.FactName));
+
+                var message = "Spec failed on one of the nodes";
+                WriteSpecMessage(string.Format("##teamcity[testFailed name='{0}' message='{1}' details='{2}']", data.FactName,  message, details));
             }
             else
             {
