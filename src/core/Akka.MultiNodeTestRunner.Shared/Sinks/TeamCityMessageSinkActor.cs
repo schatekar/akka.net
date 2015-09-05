@@ -63,11 +63,16 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
                         {
                             WriteSpecMessage(String.Format(" --> {0}", resultMessage.Message));
                         }
-                        if(node.Value.ResultMessages == null || node.Value.ResultMessages.Count == 0)
+                        if (node.Value.ResultMessages == null || node.Value.ResultMessages.Count == 0)
                             WriteSpecMessage("[received no messages - SILENT FAILURE].");
                         WriteSpecMessage(string.Format("<----------- END NODE {0} ----------->", node.Key));
                     }
                 }
+                WriteSpecMessage(string.Format("##teamcity[testFailed name='{0}']", data.FactName));
+            }
+            else
+            {
+                WriteSpecMessage(string.Format("##teamcity[testFinished name='{0}']", data.FactName));
             }
         }
 
@@ -105,7 +110,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
 
         protected override void HandleEndSpec(EndSpec endSpec)
         {
-            WriteSpecMessage(string.Format("##teamcity[testFinished name='{0}.{1}']", endSpec.ClassName, endSpec.MethodName));
+            //WriteSpecMessage(string.Format("##teamcity[testFinished name='{0}.{1}']", endSpec.ClassName, endSpec.MethodName));
 
             base.HandleEndSpec(endSpec);
         }
