@@ -25,7 +25,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             var nodeIndexes = Enumerable.Range(1, 4).ToArray();
             var nodeTests = NodeMessageHelpers.BuildNodeTests(nodeIndexes);
 
-            var beginSpec = new BeginNewSpec(nodeTests.First().TypeName, nodeTests.First().MethodName, nodeTests);
+            var beginSpec = new BeginSpec(nodeTests);
 
             //begin a new spec
             testRunCoordinator.Tell(beginSpec);
@@ -64,7 +64,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             var nodeIndexes = Enumerable.Range(1, 4).ToArray();
             var nodeTests = NodeMessageHelpers.BuildNodeTests(nodeIndexes);
 
-            var beginSpec = new BeginNewSpec(nodeTests.First().TypeName, nodeTests.First().MethodName, nodeTests);
+            var beginSpec = new BeginSpec(nodeTests);
 
             //register the TestActor as a subscriber for FactData announcements
             testRunCoordinator.Tell(new TestRunCoordinator.SubscribeFactCompletionMessages(TestActor));
@@ -84,7 +84,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
                 testRunCoordinator.Tell(message);
 
             //end the spec
-            testRunCoordinator.Tell(new EndSpec());
+            testRunCoordinator.Tell(new EndSpec(null));
 
             var factData = ExpectMsg<FactData>();
             Assert.True(factData.Passed.Value, "Spec should have passed");

@@ -156,8 +156,8 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
                 PublishToChildren(s);
             });
             Receive<NodeCompletedSpecWithSuccess>(s => PublishToChildren(s));
-            Receive<IList<NodeTest>>(tests => BeginSpec(tests));
-            Receive<EndSpec>(spec => EndSpec());
+            Receive<BeginSpec>(spec => BeginSpec(spec));
+            Receive<EndSpec>(spec => EndSpec(spec));
             Receive<RunnerMessage>(runner => PublishToChildren(runner));
         }
 
@@ -168,18 +168,16 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
         }
 
 
-        private void EndSpec()
+        private void EndSpec(EndSpec spec)
         {
             foreach (var sink in Sinks)
-                sink.EndTest();
+                sink.EndTest(spec);
         }
 
-        private void BeginSpec(IList<NodeTest> tests)
+        private void BeginSpec(BeginSpec spec)
         {
-            var test = tests.First();
-
             foreach (var sink in Sinks)
-                sink.BeginTest(test.TestName, test.MethodName, tests);
+                sink.BeginTest(spec);
         }
 
         private void PublishToChildren(RunnerMessage message)

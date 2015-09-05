@@ -52,7 +52,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
 
         protected abstract void ReceiveFactData(FactData data);
 
-        protected override void HandleNewSpec(BeginNewSpec newSpec)
+        protected override void HandleNewSpec(BeginSpec newSpec)
         {
             if (UseTestCoordinator)
             {

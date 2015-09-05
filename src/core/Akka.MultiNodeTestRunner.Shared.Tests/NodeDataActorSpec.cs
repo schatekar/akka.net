@@ -33,7 +33,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             m1.UnionWith(m2);
 
             //Kill the node data actor and have it deliver its payload to TestActor
-            nodeDataActor.Tell(new EndSpec(), TestActor);
+            nodeDataActor.Tell(new EndSpec(null), TestActor);
 
             var nodeData = ExpectMsg<NodeData>();
 
@@ -56,7 +56,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
                 nodeDataActor.Tell(m);
 
             //Kill the node data actor and have it deliver its payload to TestActor
-            nodeDataActor.Tell(new EndSpec(), TestActor);
+            nodeDataActor.Tell(new EndSpec(null), TestActor);
 
             var nodeData = ExpectMsg<NodeData>();
 
@@ -79,7 +79,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
                 nodeDataActor.Tell(m);
 
             //Kill the node data actor and have it deliver its payload to TestActor
-            nodeDataActor.Tell(new EndSpec(), TestActor);
+            nodeDataActor.Tell(new EndSpec(null), TestActor);
 
             var nodeData = ExpectMsg<NodeData>();
 
@@ -107,7 +107,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             m1.UnionWith(m2);
 
             //Kill the node data actor and have it deliver its payload to TestActor
-            nodeDataActor.Tell(new EndSpec(), TestActor);
+            nodeDataActor.Tell(new EndSpec(null), TestActor);
 
             var nodeData = ExpectMsg<NodeData>();
 

@@ -95,9 +95,9 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
             }
         }
 
-        protected override void HandleNewSpec(BeginNewSpec newSpec)
+        protected override void HandleNewSpec(BeginSpec newSpec)
         {
-            WriteSpecMessage(string.Format("Beginning spec {0}.{1} on {2} nodes", newSpec.ClassName, newSpec.MethodName, newSpec.Nodes.Count));
+            WriteSpecMessage(string.Format("Beginning spec {0}.{1} on {2} nodes", newSpec.ClassName, newSpec.MethodName, newSpec.Tests.Count));
 
             base.HandleNewSpec(newSpec);
         }

@@ -8,34 +8,47 @@
 using System;
 using System.Collections.Generic;
 using Akka.Event;
+using System.Linq;
 
 namespace Akka.MultiNodeTestRunner.Shared.Sinks
 {
     #region Message types
 
     /// <summary>
-    /// Message type for signaling that a new spec is ready to be run
+    /// Message type for indicating that a spec has ended.
     /// </summary>
-    public class BeginNewSpec
+    public class EndSpec
     {
-        public BeginNewSpec(string className, string methodName, IList<NodeTest> nodes)
+        public EndSpec(IList<NodeTest> tests)
         {
-            Nodes = nodes;
-            MethodName = methodName;
-            ClassName = className;
+            Tests = tests;
+
+            var firstTest = Tests.First();
+            ClassName = firstTest.TestName;
+            MethodName = firstTest.MethodName;
         }
-
-        public string ClassName { get; private set; }
-
+        public IList<NodeTest> Tests { get; private set; }
+        public string ClassName{ get; private set; }
         public string MethodName { get; private set; }
-
-        public IList<NodeTest> Nodes { get; private set; }
     }
 
     /// <summary>
-    /// Message type for indicating that the current spec has ended.
+    /// Message type for indicating that a spec has started.
     /// </summary>
-    public class EndSpec { }
+    public class BeginSpec
+    {
+        public BeginSpec(IList<NodeTest> tests)
+        {
+            Tests = tests;
+
+            var firstTest = Tests.First();
+            ClassName = firstTest.TestName;
+            MethodName = firstTest.MethodName;
+        }
+        public IList<NodeTest> Tests { get; private set; }
+        public string ClassName { get; private set; }
+        public string MethodName { get; private set; }
+    }
 
     /// <summary>
     /// Message type for signaling that a node has completed a spec successfully

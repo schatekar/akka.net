@@ -33,7 +33,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             }
 
             //End the test
-            specRunCoordinator.Tell(new EndSpec(), TestActor);
+            specRunCoordinator.Tell(new EndSpec(null), TestActor);
             var factData = ExpectMsg<FactData>();
 
             Assert.True(factData.RunnerMessages.Any());
@@ -56,7 +56,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             }
 
             //End the test
-            specRunCoordinator.Tell(new EndSpec(), TestActor);
+            specRunCoordinator.Tell(new EndSpec(null), TestActor);
             var factData = ExpectMsg<FactData>();
 
             // Combine the messages from each individual NodeData back into a unioned set. 
@@ -89,7 +89,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             }
 
             //End the test
-            specRunCoordinator.Tell(new EndSpec(), TestActor);
+            specRunCoordinator.Tell(new EndSpec(null), TestActor);
             var factData = ExpectMsg<FactData>();
 
             Assert.Equal(nodeIndexes.Length, factData.NodeFacts.Count);
@@ -117,7 +117,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             }
 
             //End the test
-            specRunCoordinator.Tell(new EndSpec(), TestActor);
+            specRunCoordinator.Tell(new EndSpec(null), TestActor);
             var factData = ExpectMsg<FactData>();
 
             Assert.Equal(nodeIndexes.Length, factData.NodeFacts.Count);
@@ -148,7 +148,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             }
 
             //End the test
-            specRunCoordinator.Tell(new EndSpec(), TestActor);
+            specRunCoordinator.Tell(new EndSpec(null), TestActor);
             var factData = ExpectMsg<FactData>();
 
             Assert.Equal(nodeIndexes.Length, factData.NodeFacts.Count);

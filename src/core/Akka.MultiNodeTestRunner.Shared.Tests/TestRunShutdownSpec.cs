@@ -26,7 +26,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
             var nodeIndexes = Enumerable.Range(1, 4).ToArray();
             var nodeTests = NodeMessageHelpers.BuildNodeTests(nodeIndexes);
 
-            var beginSpec = new BeginNewSpec(nodeTests.First().TypeName, nodeTests.First().MethodName, nodeTests);
+            var beginSpec = new BeginSpec(nodeTests);
             consoleMessageSink.Tell(beginSpec);
 
             // create some messages for each node, the test runner, and some result messages
@@ -41,7 +41,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Tests
                 consoleMessageSink.Tell(message);
 
             //end the spec
-            consoleMessageSink.Tell(new EndSpec());
+            consoleMessageSink.Tell(new EndSpec(null));
 
             //end the test run...
             var sinkReadyToTerminate =

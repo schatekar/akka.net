@@ -54,7 +54,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
         /// </summary>
         private void SetReceive()
         {
-            Receive<BeginNewSpec>(spec => HandleNewSpec(spec));
+            Receive<BeginSpec>(spec => HandleNewSpec(spec));
             Receive<EndSpec>(endspec => HandleEndSpec(endspec));
             Receive<LogMessageForNode>(node => HandleNodeMessage(node));
             Receive<LogMessageFragmentForNode>(node => HandleNodeMessageFragment(node));
@@ -74,7 +74,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
         /// </summary>
         protected abstract void AdditionalReceives();
 
-        protected abstract void HandleNewSpec(BeginNewSpec newSpec);
+        protected abstract void HandleNewSpec(BeginSpec newSpec);
 
         protected abstract void HandleEndSpec(EndSpec endSpec);
 

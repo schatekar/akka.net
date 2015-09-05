@@ -203,7 +203,7 @@ namespace Akka.MultiNodeTestRunner
 
         static void FinishSpec()
         {
-           SinkCoordinator.Tell(new EndSpec());
+           SinkCoordinator.Tell(new EndSpec(null));
         }
 
         static void PublishRunnerMessage(string message)
