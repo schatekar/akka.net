@@ -68,6 +68,11 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
             }
         }
 
+        protected override void HandleIgnoreSpec(IgnoreSpec ignoreSpec)
+        {
+            
+        }
+
         protected override void HandleNodeMessageFragment(LogMessageFragmentForNode logMessage)
         {
             if (UseTestCoordinator)

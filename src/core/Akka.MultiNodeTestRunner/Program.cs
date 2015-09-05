@@ -99,6 +99,7 @@ namespace Akka.MultiNodeTestRunner
                         if (!string.IsNullOrEmpty(test.Value.First().SkipReason))
                         {
                             PublishRunnerMessage(string.Format("Skipping test {0}. Reason - {1}", test.Value.First().MethodName, test.Value.First().SkipReason));
+                            IgnoreSpec(test.Value);
                             continue;
                         }
 
@@ -180,6 +181,7 @@ namespace Akka.MultiNodeTestRunner
             }
         }
 
+        
         static void EnableAllSinks(string assemblyName)
         {
             var fileSystemSink = CommandLine.GetProperty("multinode.enable-filesink");
@@ -206,6 +208,12 @@ namespace Akka.MultiNodeTestRunner
         {
            SinkCoordinator.Tell(new EndSpec(tests));
         }
+
+        private static void IgnoreSpec(List<NodeTest> tests)
+        {
+            SinkCoordinator.Tell(new IgnoreSpec(tests));
+        }
+
 
         static void PublishRunnerMessage(string message)
         {

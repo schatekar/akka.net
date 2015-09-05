@@ -54,6 +54,27 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
     }
 
     /// <summary>
+    /// Message type for indicating that a spec is ignored.
+    /// </summary>
+    public class IgnoreSpec
+    {
+        public IgnoreSpec(IList<NodeTest> tests)
+        {
+            Tests = tests;
+
+            if (tests != null && tests.Count > 0)
+            {
+                var firstTest = Tests.First();
+                SkipReason = firstTest.SkipReason;
+                MethodName = firstTest.MethodName;
+            }
+        }
+        public IList<NodeTest> Tests { get; private set; }
+        public string SkipReason { get; private set; }
+        public string MethodName { get; private set; }
+    }
+
+    /// <summary>
     /// Message type for signaling that a node has completed a spec successfully
     /// </summary>
     public class NodeCompletedSpecWithSuccess

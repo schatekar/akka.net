@@ -246,6 +246,12 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
             MessageSinkActorRef.Tell(spec);
         }
 
+        public void IgnoreTest(IgnoreSpec spec)
+        {
+            //end the current spec
+            MessageSinkActorRef.Tell(spec);
+        }
+
         public void Success(int nodeIndex)
         {
             Success(nodeIndex, NoMessage);

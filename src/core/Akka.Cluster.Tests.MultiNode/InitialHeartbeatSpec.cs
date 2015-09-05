@@ -67,7 +67,7 @@ namespace Akka.Cluster.Tests.MultiNode
         public class InitialHeartbeatMultiNode3 : InitialHeartbeatSpec
         {
         }
-        
+
         public abstract class InitialHeartbeatSpec : MultiNodeClusterSpec
         {
             private readonly InitialHeartbeatMultiNodeConfig _config;
@@ -83,7 +83,7 @@ namespace Akka.Cluster.Tests.MultiNode
                 MuteMarkingAsUnreachable();
             }
 
-            //[MultiNodeFact] //currently bugged, due to issues with TestKit
+            [MultiNodeFact(Skip = "currently bugged, due to issues with TestKit")]
             public void AMemberMustDetectFailureEvenThoughNoHeartbeatsHaveBeenReceived()
             {
                 var firstAddress = GetAddress(_config.First);

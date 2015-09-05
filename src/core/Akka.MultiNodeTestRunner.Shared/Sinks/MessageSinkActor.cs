@@ -56,6 +56,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
         {
             Receive<BeginSpec>(spec => HandleNewSpec(spec));
             Receive<EndSpec>(endspec => HandleEndSpec(endspec));
+            Receive<IgnoreSpec>(ignorespec => HandleIgnoreSpec(ignorespec));
             Receive<LogMessageForNode>(node => HandleNodeMessage(node));
             Receive<LogMessageFragmentForNode>(node => HandleNodeMessageFragment(node));
             Receive<LogMessageForTestRunner>(node => HandleRunnerMessage(node));
@@ -77,6 +78,8 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
         protected abstract void HandleNewSpec(BeginSpec newSpec);
 
         protected abstract void HandleEndSpec(EndSpec endSpec);
+
+        protected abstract void HandleIgnoreSpec(IgnoreSpec endSpec);
 
         protected abstract void HandleNodeMessage(LogMessageForNode logMessage);
 

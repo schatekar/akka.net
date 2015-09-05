@@ -107,7 +107,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
 
         protected override void HandleNewSpec(BeginSpec newSpec)
         {
-            WriteSpecMessage(string.Format("##teamcity[testStarted name='{0}.{1}']", newSpec.ClassName, newSpec.MethodName));
+            WriteSpecMessage(string.Format("##teamcity[testStarted name='{0}']", newSpec.MethodName));
             WriteSpecMessage(string.Format("Running on {0} nodes", newSpec.Tests.Count));
 
             base.HandleNewSpec(newSpec);
@@ -118,6 +118,11 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
             //WriteSpecMessage(string.Format("##teamcity[testFinished name='{0}.{1}']", endSpec.ClassName, endSpec.MethodName));
 
             base.HandleEndSpec(endSpec);
+        }
+
+        protected override void HandleIgnoreSpec(IgnoreSpec ignoreSpec)
+        {
+            WriteSpecMessage(string.Format("##teamcity[testIgnored name='{0}' message={1}]", ignoreSpec.MethodName, ignoreSpec.SkipReason));
         }
 
         protected override void HandleNodeMessage(LogMessageForNode logMessage)

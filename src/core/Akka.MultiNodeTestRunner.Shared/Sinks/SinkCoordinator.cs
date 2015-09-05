@@ -158,6 +158,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
             Receive<NodeCompletedSpecWithSuccess>(s => PublishToChildren(s));
             Receive<BeginSpec>(spec => BeginSpec(spec));
             Receive<EndSpec>(spec => EndSpec(spec));
+            Receive<IgnoreSpec>(spec => IgnoreSpec(spec));
             Receive<RunnerMessage>(runner => PublishToChildren(runner));
         }
 
@@ -167,7 +168,11 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
                 sink.Success(message.NodeIndex, message.Message);
         }
 
-
+        private void IgnoreSpec(IgnoreSpec spec)
+        {
+            foreach (var sink in Sinks)
+                sink.IgnoreTest(spec);
+        }
         private void EndSpec(EndSpec spec)
         {
             foreach (var sink in Sinks)

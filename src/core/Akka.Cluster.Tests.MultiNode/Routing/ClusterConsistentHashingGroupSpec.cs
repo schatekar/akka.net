@@ -107,7 +107,7 @@ namespace Akka.Cluster.Tests.MultiNode.Routing
             return actorRef.Path.Address;
         }
 
-        //[MultiNodeFact(Skip = "Race conditions - needs debugging")]
+        [MultiNodeFact(Skip = "Race conditions - needs debugging")]
         public void AClusterRouterWithConsistentHashingGroupMustSendToSameDestinationsFromDifferentNodes()
         {
             Sys.ActorOf(Props.Create<ClusterConsistentHashingGroupSpecConfig.Destination>(), "dest");

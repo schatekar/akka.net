@@ -108,6 +108,13 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
 
             base.HandleEndSpec(endSpec);
         }
+        protected override void HandleIgnoreSpec(IgnoreSpec ignoreSpec)
+        {
+            WriteSpecMessage(string.Format("Ignoring spec {0}", ignoreSpec.MethodName));
+            WriteSpecMessage(string.Format("Reason: {0}", ignoreSpec.SkipReason));
+        }
+
+
 
         protected override void HandleNodeMessage(LogMessageForNode logMessage)
         {
