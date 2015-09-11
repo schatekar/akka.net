@@ -79,9 +79,9 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
     /// </summary>
     public class NodeCompletedSpecWithSuccess
     {
-        public NodeCompletedSpecWithSuccess(int nodeIndex, string testName)
+        public NodeCompletedSpecWithSuccess(int nodeIndex, string message)
         {
-            TestName = testName;
+            Message = message;
             NodeIndex = nodeIndex;
         }
 
@@ -95,12 +95,12 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
     /// </summary>
     public class NodeCompletedSpecWithFail
     {
-        public NodeCompletedSpecWithFail(int nodeIndex, string testName)
+        public NodeCompletedSpecWithFail(int nodeIndex, string message)
         {
-            TestName = testName;
+            Message = message;
             NodeIndex = nodeIndex;
         }
-        public string TestName { get; private set; }
+
         public int NodeIndex { get; private set; }
         public string Message { get; private set; }
     }
