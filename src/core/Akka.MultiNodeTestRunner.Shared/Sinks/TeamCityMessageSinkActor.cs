@@ -73,11 +73,11 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
                 }
 
                 var message = "Spec failed on one of the nodes";
-                WriteSpecMessage(string.Format("##teamcity[testFailed name='{0}' message='{1}' details='{2}']", data.FactName,  message, details.ToString().Escape()));
+                WriteSpecMessage(string.Format("##teamcity[testFailed name='{0}' flowId='{0}' message='{1}' details='{2}']", data.FactName,  message, details.ToString().Escape()));
             }
             else
             {
-                WriteSpecMessage(string.Format("##teamcity[testFinished name='{0}']", data.FactName));
+                WriteSpecMessage(string.Format("##teamcity[testFinished name='{0}' flowId='{0}' ]", data.FactName));
             }
         }
 
@@ -107,7 +107,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
 
         protected override void HandleNewSpec(BeginSpec newSpec)
         {
-            WriteSpecMessage(string.Format("##teamcity[testStarted name='{0}']", newSpec.MethodName));
+            WriteSpecMessage(string.Format("##teamcity[testStarted name='{0}' flowId='{0}' ]", newSpec.MethodName));
             WriteSpecMessage(string.Format("Running on {0} nodes", newSpec.Tests.Count));
 
             base.HandleNewSpec(newSpec);
@@ -122,7 +122,7 @@ namespace Akka.MultiNodeTestRunner.Shared.Sinks
 
         protected override void HandleIgnoreSpec(IgnoreSpec ignoreSpec)
         {
-            WriteSpecMessage(string.Format("##teamcity[testIgnored name='{0}' message='{1}']", ignoreSpec.MethodName, ignoreSpec.SkipReason));
+            WriteSpecMessage(string.Format("##teamcity[testIgnored name='{0}' flowId='{0}' message='{1}']", ignoreSpec.MethodName, ignoreSpec.SkipReason));
         }
 
         protected override void HandleNodeMessage(LogMessageForNode logMessage)
